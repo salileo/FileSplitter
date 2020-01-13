@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -24,7 +25,6 @@ namespace FileSplitter
         public MainWindow()
         {
             InitializeComponent();
-            JoinFile(@"C:\Users\salilk\Desktop\p.1.part", @"C:\Users\salilk\Desktop");
         }
 
         public bool SplitFile(string sourceFile, string destinationFolder, int sizeInKB)
@@ -144,20 +144,60 @@ namespace FileSplitter
             return true;
         }
 
-        private void SourceBrowse_Click(object sender, RoutedEventArgs e)
+        private void SplitSourceBrowse_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.Title = "Select the file to split.";
 
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.SplitSourceFile.Text = openFileDialog.FileName;
+            }
         }
 
-        private void DestinationBrowse_Click(object sender, RoutedEventArgs e)
+        private void SplitDestinationBrowse_Click(object sender, RoutedEventArgs e)
         {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.ShowNewFolderButton = true;
+            folderBrowserDialog.Description = "Select the destination directory.";
 
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.SplitDestinationFolder.Text = folderBrowserDialog.SelectedPath;
+            }
+        }
+
+        private void JoinSourceBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.Filter = "Join File|*.1.part";
+            openFileDialog.Title = "Select the first file to join from.";
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.JoinSourceFile.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void JoinDestinationBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.ShowNewFolderButton = true;
+            folderBrowserDialog.Description = "Select the destination directory.";
+
+            DialogResult result = folderBrowserDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                this.JoinDestinationFolder.Text = folderBrowserDialog.SelectedPath;
+            }
         }
 
         private void PerformSplit_Click(object sender, RoutedEventArgs e)
         {
-            string sourceFile = this.SourceFile.Text;
-            string destinationFolder = this.DestinationFolder.Text;
+            string sourceFile = this.SplitSourceFile.Text;
+            string destinationFolder = this.SplitDestinationFolder.Text;
             string sizeText = this.SizeInKB.Text;
             int sizeInKB = 0;
             if (!int.TryParse(sizeText, out sizeInKB))
@@ -165,7 +205,27 @@ namespace FileSplitter
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(sourceFile) || string.IsNullOrWhiteSpace(destinationFolder))
+            {
+                return;
+            }
+
             SplitFile(sourceFile, destinationFolder, sizeInKB);
+            System.Windows.MessageBox.Show("Done");
+        }
+
+        private void PerformJoin_Click(object sender, RoutedEventArgs e)
+        {
+            string sourceFile = this.JoinSourceFile.Text;
+            string destinationFolder = this.JoinDestinationFolder.Text;
+
+            if (string.IsNullOrWhiteSpace(sourceFile) || string.IsNullOrWhiteSpace(destinationFolder))
+            {
+                return;
+            }
+
+            JoinFile(sourceFile, destinationFolder);
+            System.Windows.MessageBox.Show("Done");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="FileSplitter.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="File Splitter" Height="350" Width="525">
+        Title="File Splitter" Height="250" Width="525">
     <TabControl>
         <TabItem Header="Split">
             <StackPanel Margin="20">
@@ -13,8 +13,8 @@
                     </Grid.ColumnDefinitions>
                     
                     <Label Grid.Column="0">Source File</Label>
-                    <TextBox Grid.Column="1" Name="SourceFile"></TextBox>
-                    <Button Grid.Column="2" Padding="5" Click="SourceBrowse_Click">Browse</Button>
+                    <TextBox Grid.Column="1" Name="SplitSourceFile"></TextBox>
+                    <Button Grid.Column="2" Padding="5" Click="SplitSourceBrowse_Click">Browse</Button>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -24,8 +24,8 @@
                     </Grid.ColumnDefinitions>
                     
                     <Label Grid.Column="0">Destination Folder</Label>
-                    <TextBox Grid.Column="1" Name="DestinationFolder"></TextBox>
-                    <Button Grid.Column="2" Padding="5" Click="DestinationBrowse_Click">Browse</Button>
+                    <TextBox Grid.Column="1" Name="SplitDestinationFolder"></TextBox>
+                    <Button Grid.Column="2" Padding="5" Click="SplitDestinationBrowse_Click">Browse</Button>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -40,7 +40,31 @@
             </StackPanel>
         </TabItem>
         <TabItem Header="Join">
-            
+            <StackPanel Margin="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0">Source File</Label>
+                    <TextBox Grid.Column="1" Name="JoinSourceFile"></TextBox>
+                    <Button Grid.Column="2" Padding="5" Click="JoinSourceBrowse_Click">Browse</Button>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0">Destination Folder</Label>
+                    <TextBox Grid.Column="1" Name="JoinDestinationFolder"></TextBox>
+                    <Button Grid.Column="2" Padding="5" Click="JoinDestinationBrowse_Click">Browse</Button>
+                </Grid>
+                <Button Padding="5" Margin="100,20" Click="PerformJoin_Click">Perform Join</Button>
+            </StackPanel>
         </TabItem>
     </TabControl>
 </Window>
